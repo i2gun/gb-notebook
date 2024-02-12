@@ -29,6 +29,17 @@ public class UserRepository implements GBRepository {
         return users;
     }
 
+    private User createUser() {
+        UserValidator validator = null;
+        String firstName = validator.validate("Имя: ");
+        String lastName = validator.validate("Фамилия: ");
+        String phone = validator.validate("Номер телефона: ");
+
+        validator = new UserValidator();
+
+        return validator.validate(new User(firstName, lastName, phone));
+    }
+
     @Override
     public User create(User user) {
         List<User> users = findAll();
@@ -74,7 +85,18 @@ public class UserRepository implements GBRepository {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        List<User> users = findAll();
+        User removeUser = users.stream()
+                .filter(u -> u.getId()
+                        .equals(id))
+                .findFirst().orElse(null);
+        if (removeUser != null) {
+            users.remove(removeUser);
+            write(users);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void write(List<User> users) {

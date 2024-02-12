@@ -16,6 +16,7 @@ public class UserView {
 
     public void run(){
         Commands com;
+        String id;
 
         while (true) {
             String command = prompt("Введите команду: ");
@@ -27,7 +28,7 @@ public class UserView {
                     userController.saveUser(u);
                     break;
                 case READ:
-                    String id = prompt("Идентификатор пользователя: ");
+                    id = prompt("Идентификатор пользователя: ");
                     try {
                         User user = userController.readUser(Long.parseLong(id));
                         System.out.println(user);
@@ -40,25 +41,13 @@ public class UserView {
                     System.out.println(userController.readAll());
                     break;
                 case UPDATE:
-                    String userId = prompt("Enter user id: ");
-                    userController.updateUser(userId, createUser());
+                    id = prompt("Enter user id: ");
+                    userController.updateUser(id, createUser());
+                    break;
+                case DELETE:
+                    id = prompt("Идентификатор пользователя: ");
+                    userController.delete(id);
             }
         }
-    }
-
-    private String prompt(String message) {
-        Scanner in = new Scanner(System.in);
-        System.out.print(message);
-        return in.nextLine();
-    }
-
-    private User createUser() {
-        String firstName = prompt("Имя: ");
-        String lastName = prompt("Фамилия: ");
-        String phone = prompt("Номер телефона: ");
-
-        UserValidator validator = new UserValidator();
-
-        return validator.validate(new User(firstName, lastName, phone));
     }
 }

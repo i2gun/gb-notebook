@@ -2,10 +2,13 @@ package notebook.util;
 
 import notebook.model.User;
 
+import java.util.Scanner;
+
 public class UserValidator {
 
-    public User validate(User user) {
-        if (!isValid(user)) {
+    public static String validate(String msg) {
+        String field = prompt(msg);
+        if (!field.isEmpty()) {
             throw new IllegalArgumentException("Введены не корректные данные");
         }
         user.setFirstName(user.getFirstName().replaceAll(" ", "").trim());
@@ -14,9 +17,9 @@ public class UserValidator {
         return user;
     }
 
-    private boolean isValid(User user) {
-        return !user.getFirstName().isEmpty()
-                && !user.getLastName().isEmpty()
-                && !user.getPhone().isEmpty();
+    private static String prompt(String message) {
+        Scanner in = new Scanner(System.in);
+        System.out.print(message);
+        return in.nextLine();
     }
 }

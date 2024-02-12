@@ -36,4 +36,8 @@ public class UserController {
         update.setId(Long.parseLong(userId));
         repository.update(Long.parseLong(userId), update);
     }
+
+    public boolean delete(String id) {
+        return repository.delete(Long.parseLong(id));
+    }
 }
