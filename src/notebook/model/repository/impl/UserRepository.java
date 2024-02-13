@@ -29,17 +29,6 @@ public class UserRepository implements GBRepository {
         return users;
     }
 
-    private User createUser() {
-        UserValidator validator = null;
-        String firstName = validator.validate("Имя: ");
-        String lastName = validator.validate("Фамилия: ");
-        String phone = validator.validate("Номер телефона: ");
-
-        validator = new UserValidator();
-
-        return validator.validate(new User(firstName, lastName, phone));
-    }
-
     @Override
     public User create(User user) {
         List<User> users = findAll();

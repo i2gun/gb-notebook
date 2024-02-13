@@ -2,7 +2,7 @@ package notebook.controller;
 
 import notebook.model.User;
 import notebook.model.repository.GBRepository;
-
+import notebook.util.UserValidator;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +11,14 @@ public class UserController {
 
     public UserController(GBRepository repository) {
         this.repository = repository;
+    }
+
+    public User createUser() {
+        UserValidator validator = new UserValidator();
+        String firstName = validator.validate("Имя: ");
+        String lastName = validator.validate("Фамилия: ");
+        String phone = validator.validate("Номер телефона: ");
+        return new User(firstName, lastName, phone);
     }
 
     public void saveUser(User user) {

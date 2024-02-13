@@ -5,8 +5,6 @@ import notebook.model.User;
 import notebook.util.Commands;
 import notebook.util.UserValidator;
 
-import java.util.Scanner;
-
 public class UserView {
     private final UserController userController;
 
@@ -17,18 +15,19 @@ public class UserView {
     public void run(){
         Commands com;
         String id;
+        UserValidator validator = new UserValidator();
 
         while (true) {
-            String command = prompt("Введите команду: ");
+            String command = validator.validate("Введите команду: ");
             com = Commands.valueOf(command);
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = createUser();
+                    User u = userController.createUser();
                     userController.saveUser(u);
                     break;
                 case READ:
-                    id = prompt("Идентификатор пользователя: ");
+                    id = validator.validate("Идентификатор пользователя: ");
                     try {
                         User user = userController.readUser(Long.parseLong(id));
                         System.out.println(user);
@@ -41,11 +40,11 @@ public class UserView {
                     System.out.println(userController.readAll());
                     break;
                 case UPDATE:
-                    id = prompt("Enter user id: ");
-                    userController.updateUser(id, createUser());
+                    id = validator.validate("Enter user id: ");
+                    userController.updateUser(id, userController.createUser());
                     break;
                 case DELETE:
-                    id = prompt("Идентификатор пользователя: ");
+                    id = validator.validate("Идентификатор пользователя: ");
                     userController.delete(id);
             }
         }
