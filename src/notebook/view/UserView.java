@@ -19,12 +19,17 @@ public class UserView {
 
         while (true) {
             String command = validator.validate("Введите команду: ");
-            com = Commands.valueOf(command);
+            try {
+                com = Commands.valueOf(command.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Введена неверная команда");
+                continue;
+            }
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = userController.createUser();
-                    userController.saveUser(u);
+                    checkAndMessage(userController.saveUser(userController.createUser()),
+                            "Добавление нового", "<>");
                     break;
                 case READ:
                     id = validator.validate("Идентификатор пользователя: ");
@@ -41,12 +46,22 @@ public class UserView {
                     break;
                 case UPDATE:
                     id = validator.validate("Enter user id: ");
-                    userController.updateUser(id, userController.createUser());
+                    checkAndMessage(userController.updateUser(id, userController.createUser()).isPresent(),
+                            "Обновление", id);
                     break;
                 case DELETE:
                     id = validator.validate("Идентификатор пользователя: ");
-                    userController.delete(id);
+                    checkAndMessage(userController.delete(id), "Удаление", id);
             }
+        }
+    }
+
+    private void checkAndMessage(boolean check, String msg, String id) {
+        msg += " пользователя с ID " + id;
+        if (check) {
+            System.out.println(msg + " выполнено успешно");
+        } else {
+            System.out.println(msg + " не выполнено");
         }
     }
 }

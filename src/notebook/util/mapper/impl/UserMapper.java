@@ -17,7 +17,7 @@ public class UserMapper implements Mapper {
             id = Long.parseLong(lines[0]);
             return new User(id, lines[1], lines[2], lines[3]);
         }
-        throw new NumberFormatException("Id must be a large number");
+        throw new NumberFormatException("ID must be a large number");
     }
 
     private boolean isDigit(String s) throws NumberFormatException {

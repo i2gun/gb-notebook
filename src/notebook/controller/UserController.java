@@ -5,6 +5,7 @@ import notebook.model.repository.GBRepository;
 import notebook.util.UserValidator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UserController {
     private final GBRepository repository;
@@ -21,8 +22,8 @@ public class UserController {
         return new User(firstName, lastName, phone);
     }
 
-    public void saveUser(User user) {
-        repository.create(user);
+    public boolean saveUser(User user) {
+        return repository.create(user) != null;
     }
 
     public User readUser(Long userId) throws Exception {
@@ -40,9 +41,9 @@ public class UserController {
         return repository.findAll();
     }
 
-    public void updateUser(String userId, User update) {
+    public Optional<User> updateUser(String userId, User update) {
         update.setId(Long.parseLong(userId));
-        repository.update(Long.parseLong(userId), update);
+        return repository.update(Long.parseLong(userId), update);
     }
 
     public boolean delete(String id) {
