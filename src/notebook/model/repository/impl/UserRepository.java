@@ -51,7 +51,11 @@ public class UserRepository implements GBRepository {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        User userById = allUsers.stream()
+                .filter(u -> u.getId()
+                        .equals(id))
+                .findFirst().orElseThrow(() -> new RuntimeException("User not found"));
+        return Optional.of(userById);
     }
 
     @Override

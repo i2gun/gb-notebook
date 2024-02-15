@@ -1,5 +1,8 @@
 package notebook.model;
 
+import notebook.util.mapper.Mapper;
+import notebook.util.mapper.impl.UserMapper;
+
 public class User {
     private Long id;
     private String firstName;
@@ -47,6 +50,17 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User usr)) return false;
+        return firstName.equals(usr.firstName) && lastName.equals(usr.lastName) && phone.equals(usr.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return (new UserMapper()).toInput(this).hashCode();
     }
 
     @Override
